@@ -19,31 +19,48 @@
 
 % Go to this site for more assistance 'https://www.mathworks.com/help/images/ref/dicomread.html';
 
+%% Clear Command Window, Clear Workspace
 clc; clear;
 
+%% Establish Folder Pathway for Subject
 folderpathway = dir('\\client\d$\BME3053C\Milestone Project\Subjects_COVID\Subject 1\Subject (1)\Subject (1)\98.12.2'); %put in folder name
 folderpathway = folderpathway(3:end);
 lengthFolder = length(folderpathway);
-PrevalanceMatrix = [];
+PrevalenceMatrix = [];
 
+%% Scan each of the .dcm images in the folder to determine prevalence of white pixels
 for i = 1:1:lengthFolder
     file = folderpathway(i).name;
-    image = dicomload(file);
+    info = file;
+    image = dicomread(info);
     newimage = image;
-    prevalance = 0;
+    prevalence = 0;
     for j = 1:1:length(image)
         for k = 1:1:length(image)
             if image(j,k) == 255
                 newimage(j,k) = 1;
-                prevalance = prevalence + 1;
+                prevalence = prevalence + 1;
             end 
         end 
     end 
-    PrevalencePercent = prevalance/(516^2);
-    PrevalanceMatrix(i,:) = PrevalencePercent;
+    PrevalencePercent = prevalence/(516^2);
+    PrevalenceMatrix(i,:) = PrevalencePercent;
 end 
 
-    
-    
-    
+%% Find Statistical Differences in Data (from PrevalenceMatrix)
 
+meanPrevalence = mean(PrevalenceMatrix);
+Sdev = std(PrevalenceMatrix);
+%add more measures of the data here 
+
+%% ADD LATER?
+% fid = fopen('Subject1PrevalenceResults','wt');
+% for ii = 1:size(PrevalenceMatrix,1)
+%     fprintf(fid,'%g\t',PrevalenceMatrix(ii,:));
+%     fprintf(fid,'\n');
+% end
+% fclose(fid)
+
+    
+    
+    
