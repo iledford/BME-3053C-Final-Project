@@ -19,9 +19,31 @@
 
 % Go to this site for more assistance 'https://www.mathworks.com/help/images/ref/dicomread.html';
 
-filename = dicominfo(input('What filename would you like to scan? '));
-[X, map] = dicomread('56364397.dcm');
-montage(X, map, 'Size', [2 5]);
-info = dicomread(filename); 
+clc; clear;
 
+folderpathway = dir('\\client\d$\BME3053C\Milestone Project\Subjects_COVID\Subject 1\Subject (1)\Subject (1)\98.12.2'); %put in folder name
+folderpathway = folderpathway(3:end);
+lengthFolder = length(folderpathway);
+PrevalanceMatrix = [];
+
+for i = 1:1:lengthFolder
+    file = folderpathway(i).name;
+    image = dicomload(file);
+    newimage = image;
+    prevalance = 0;
+    for j = 1:1:length(image)
+        for k = 1:1:length(image)
+            if image(j,k) == 255
+                newimage(j,k) = 1;
+                prevalance = prevalence + 1;
+            end 
+        end 
+    end 
+    PrevalencePercent = prevalance/(516^2);
+    PrevalanceMatrix(i,:) = PrevalencePercent;
+end 
+
+    
+    
+    
 
