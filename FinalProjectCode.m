@@ -1,7 +1,5 @@
 %%%****FINAL PROJECT CODE****%%%
 
-%Clear the workspace and the command window
-
 %BROWSE FOR THE FOLDER AND ADD IT TO THE CURRENT FOLDER
 %The name of the folder for the DICOM FILE IS '\\Client\D$\BME3053C\Milestone Project\Subjects_COVID\Subject 1\Subject (1)\Subject (1)\98.12.2'
 %(the last folder name was my specific example)
@@ -23,7 +21,12 @@
 clc; clear;
 
 %% Establish Folder Pathway for Subject
-folderpathway = dir('\\client\d$\BME3053C\Milestone Project\Subjects_COVID\Subject 1\Subject (1)\Subject (1)\98.12.2'); %put in folder name
+
+pathway = '\\client\d$\BME3053C\Milestone Project\Subjects_COVID\Subject 1\Subject (1)\Subject (1)\98.12.2';
+OutputFileName = 'Subject1'; %replace this with the subject number you want to see in the output files
+
+%% Create pathways and variables for length and prevalence matrix
+folderpathway = dir(pathway); %put in folder name
 folderpathway = folderpathway(3:end);
 lengthFolder = length(folderpathway);
 PrevalenceMatrix = [];
@@ -49,18 +52,25 @@ end
 
 %% Find Statistical Differences in Data (from PrevalenceMatrix)
 
-meanPrevalence = mean(PrevalenceMatrix);
-Sdev = std(PrevalenceMatrix);
+meanPrevalence = mean(PrevalenceMatrix); %mean of the prevalence
+Sdev = std(PrevalenceMatrix); %stan. deviation of the prevalence
+
 %add more measures of the data here 
+varPrevalence = var(PrevalenceMatrix); %variance of the prevalence 
 
-%% ADD LATER?
-% fid = fopen('Subject1PrevalenceResults','wt');
-% for ii = 1:size(PrevalenceMatrix,1)
-%     fprintf(fid,'%g\t',PrevalenceMatrix(ii,:));
-%     fprintf(fid,'\n');
-% end
-% fclose(fid)
+%% Set up output variables and prepare the table
+txtOutputFilename = append(OutputFileName,'.txt');
+datOutputFilename = append(OutputFileName,'.dat');
+results = [meanPrevalence; Sdev; varPrevalence];
+Titles = {'Mean';'Standard Deviation';'Variance'};
 
-    
-    
-    
+C = {'Mean', meanPrevalence; 'Standard Dev.', Sdev; 'Variance', varPrevalence};
+T = table(Titles, results);
+
+%% Sending Results to a Folder (SubjectResults_COVID) in Files
+
+% Display a new current folder in flash drive
+% path('\\client\d$\BME3053C\Milestone Project\SubjectResults_COVID');
+% Create output files in current folder
+writecell(C, datOutputFilename)
+writetable(T, txtOutputFilename)
