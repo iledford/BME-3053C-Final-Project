@@ -32,12 +32,12 @@ lengthFolder = length(folderpathway);
 PrevalenceMatrix = [];
 
 %% Scan each of the .dcm images in the folder to determine prevalence of white pixels
+prevalence = 0;
 for i = 1:1:lengthFolder
     file = folderpathway(i).name;
     info = file;
     image = dicomread(info);
     newimage = image;
-    prevalence = 0;
     for j = 1:1:length(image)
         for k = 1:1:length(image)
             if image(j,k) == 255
