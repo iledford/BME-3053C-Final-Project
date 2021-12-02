@@ -22,8 +22,10 @@ clc; clear;
 
 %% Establish Folder Pathway for Subject
 
-pathway = '\\client\d$\BME3053C\Milestone Project\Subjects_COVID\Subject 1\Subject (1)\Subject (1)\98.12.2';
-OutputFileName = 'Subject1'; %replace this with the subject number you want to see in the output files
+pathway = input('What is the pathway to the dicom image folder? ','s');
+OutputFileName = input('What subject does the CT scan correspond to (for our study)? ','s'); %replace this with the subject number you want to see in the output files
+
+addpath(pathway)
 
 %% Create pathways and variables for length and prevalence matrix
 folderpathway = dir(pathway); %put in folder name
@@ -35,11 +37,14 @@ PrevalenceMatrix = [];
 prevalence = 0;
 for i = 1:1:lengthFolder
     file = folderpathway(i).name;
+    if file(1) == 'S'
+        break
+    end 
     info = file;
     image = dicomread(info);
     newimage = image;
-    for j = 1:1:length(image)
-        for k = 1:1:length(image)
+    for j = 1:1:512
+        for k = 1:1:512
             if image(j,k) == 255
                 newimage(j,k) = 1;
                 prevalence = prevalence + 1;
@@ -74,3 +79,4 @@ T = table(Titles, results);
 % Create output files in current folder
 writecell(C, datOutputFilename)
 writetable(T, txtOutputFilename)
+
