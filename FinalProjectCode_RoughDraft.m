@@ -30,7 +30,7 @@ fprintf('Enter a term (Subject1, Subject2, etc./(Control1, Control2, etc.) that 
 %Must have 'Subject' and the number together because the .txt file cannot be written with a space 
 OutputFileName = input('What subject does the CT scan correspond to (for our study)? ','s'); %replace this with the subject number you want to see in the output files
 
-clc; 
+
 fprintf('Subject Number: %s\n',OutputFileName(8:end))
 fprintf('Pathway: %s \n', pathway)
 addpath(pathway); pause(0.3)
@@ -124,9 +124,8 @@ fprintf('CT scan analysis is complete.\n')
 meanThreshold = 5.1*10^-4;
 varianceThreshold = 1.5*10^-7;
 
-clc;
-fprintf('The percent efficiency of mean correlation is 96 percent.\n')
-fprintf('The percent efficiency of variance correlation is approximately 100 percent.\n')
+fprintf('The percent efficiency of mean correlation is 86 percent.\n')
+fprintf('The percent efficiency of variance correlation is approximately 96 percent.\n')
 VariableChoice = input("With which threshold ('Mean' or 'Variance') would you like to correlate your results? ",'s');
 if VariableChoice(1) == 'V'
     fprintf('\nThe variance threshold has been chosen.\n\n')
