@@ -26,7 +26,7 @@ pathway = input('What is the pathway to the dicom image folder? ','s');
 fprintf('Pathway has been established...\n')
 pause(1)
 
-fprintf('Enter a term (Subject1, Subject2, etc.) that you want associated with output files.\nDo NOT leave a space between the word subject and the corresponding number...\n')
+fprintf('Enter a term (Subject1, Subject2, etc./(Control1, Control2, etc.) that you want associated with output files.\nDo NOT leave a space between the word subject and the corresponding number...\n')
 %Must have 'Subject' and the number together because the .txt file cannot be written with a space 
 OutputFileName = input('What subject does the CT scan correspond to (for our study)? ','s'); %replace this with the subject number you want to see in the output files
 
@@ -120,3 +120,31 @@ pause(1)
 fprintf('The .dat and .txt files have been exported!\n')
 pause(0.5)
 fprintf('CT scan analysis is complete.\n')
+
+meanThreshold = 5.1*10^-4;
+varianceThreshold = 1.5*10^-7;
+
+clc;
+fprintf('The percent efficiency of mean correlation is 96 percent.\n')
+fprintf('The percent efficiency of variance correlation is approximately 100 percent.\n')
+VariableChoice = input("With which threshold ('Mean' or 'Variance') would you like to correlate your results? ",'s');
+if VariableChoice(1) == 'V'
+    fprintf('\nThe variance threshold has been chosen.\n\n')
+    if varPrevalence > varianceThreshold
+        fprintf('\tThis patient has tested positive for the SARS-CoV-2 infection.')
+    else
+        fprintf('\tThis patient has tested negative for the SARS-CoV-2 infection.')
+    end
+elseif VariableChoice(1) == 'M'
+    fprintf('\nThe mean threshold has been chosen.\n\n')
+    if meanPrevalence > meanThreshold
+        fprintf('\tThis patient has tested positive for the SARS-CoV-2 infection.')
+    else
+        fprintf('\tThis patient has tested negative for the SARS-CoV-2 infection.')
+    end 
+end 
+
+%Save the Prevalence Matrix using the command 
+%'save SubjectX PrevalenceMatrix' or 'save ControlX PrevalenceMatrix' 
+%with X = subject/control number (this can be found at the top of the command window when the code finishes running. 
+%This should manually be typed out in the command window.
