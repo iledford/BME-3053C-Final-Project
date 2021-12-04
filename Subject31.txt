@@ -1,0 +1,4 @@
+Titles,results
+Mean,0.000789761809961374
+Standard Deviation,0.00700700418214522
+Variance,4.90981076086006e-05
